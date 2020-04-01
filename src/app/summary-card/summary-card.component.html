@@ -1,0 +1,26 @@
+<mat-card class="summary-card">
+    <mat-card-header>
+        <mat-card-title>{{ country.Country }}</mat-card-title>
+        <mat-card-subtitle>Total Confirmed: {{ country.TotalConfirmed }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="new-section">
+            <div>New Confirmed: {{ country.NewConfirmed }}</div>
+            <div>New Deaths: {{ country.NewDeaths }}</div>
+            <div>New Recovered: {{ country.NewRecovered }}</div>
+        </div>
+        <div class="total-section">
+            <div>Total Confirmed: {{ country.TotalConfirmed }}</div>
+            <div>Total Deaths: {{ country.TotalDeaths }}</div>
+            <div>Total Recovered: {{ country.TotalRecovered }}</div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+			<button class="favorite-button" 
+					title="{{ isFavorite() ? 'Remove from favorites' : 'Add to favorites' }}"
+					(click)="onFavoriteClicked()">
+				<img *ngIf="!isFavorite()" class="favorite-icon" [src]="'assets/icons/star-unfilled.svg'">
+				<img *ngIf="isFavorite()" class="favorite-icon" [src]="'assets/icons/star-filled.svg'">
+			</button>
+    </mat-card-actions>
+  </mat-card>

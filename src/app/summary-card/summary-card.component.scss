@@ -1,0 +1,38 @@
+.summary-card {
+    width: 600px;
+    background: rgba(0,0,0,.03);
+    border: 1px solid rgba(0,0,0,.03);
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+
+    mat-card-header {
+			padding: 20px;
+			padding-bottom: 5px;
+			background: rgba(0,0,0,.03);
+    }
+
+    mat-card-content {
+			display: flex;
+			justify-content: flex-end;
+			margin-bottom: 0;
+
+			.total-section, .new-section {
+				margin: 15px 30px 5px;
+			}
+    }
+
+    mat-card-actions {
+			text-align: right;
+			margin: 0 4px -6px;
+
+			.favorite-button {
+				border: none;
+				outline: none;
+				background: none;
+				cursor: pointer;
+	
+				.favorite-icon {
+					width: 26px;
+				}
+			}
+    }
+}

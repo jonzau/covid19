@@ -1,0 +1,18 @@
+<mat-toolbar class="toolbar" color="primary">
+	<mat-toolbar-row>
+			<div class="title">Covid 19</div>
+			<span class="spacer"></span>
+			<div class="search">search here</div>
+			<span class="spacer"></span>
+			<div class="filter">filter here</div>
+			<div class="favorite">
+				<button class="favorite-button" 
+						title="{{ isFavoriteView() ? 'Show all' : 'Show favorites only' }}" 
+						(click)="onFavoriteClicked()">
+					<img *ngIf="!isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-unfilled.svg'">
+					<img *ngIf="isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-filled.svg'">
+					<span class="favorite-status-text">{{ isFavoriteView() ? 'Showing favorites only' : 'Showing all' }}</span>
+				</button>
+			</div>
+		</mat-toolbar-row>
+  </mat-toolbar>

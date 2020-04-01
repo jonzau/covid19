@@ -1,0 +1,41 @@
+.toolbar {
+	position: fixed;
+	top: 0;
+	justify-content: space-between;
+	z-index: 1;
+
+	.spacer {
+		flex: 1 1 auto;
+	}
+
+	.search {
+	}
+
+	.filter {
+	}
+
+	.favorite {
+		.favorite-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 6px;
+			margin-left: 30px;
+			border: none;
+			outline: none;
+			color: inherit;
+			background: none;
+			cursor: pointer;
+
+			.favorite-icon {
+				width: 26px;
+				padding-right: 10px;
+			}
+
+			.favorite-status-text {
+				float: right;
+				font-size: 18px;
+			}
+		}
+	}
+}
