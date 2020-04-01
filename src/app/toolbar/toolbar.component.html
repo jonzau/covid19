@@ -9,7 +9,7 @@
 				<button class="favorite-button" 
 						title="{{ isFavoriteView() ? 'Show all' : 'Show favorites only' }}" 
 						(click)="onFavoriteClicked()">
-					<img *ngIf="!isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-unfilled.svg'">
+					<img *ngIf="!isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-filled-white.svg'">
 					<img *ngIf="isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-filled.svg'">
 					<span class="favorite-status-text">{{ isFavoriteView() ? 'Showing favorites only' : 'Showing all' }}</span>
 				</button>
