@@ -4,12 +4,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CountrySummary } from './models/models';
+import { CountrySummary, Sorting } from './models/models';
 
 enum Cookies {
 	DELIMITER = ';',
 	FavoriteView = 'favoriteView',
-	Favorites = 'favorites'
+	Favorites = 'favorites',
+	Sorting = 'sorting'
 }
 
 @Injectable({
@@ -42,7 +43,24 @@ export class Covid19Service {
 
 	getFilteredSummary(): Observable<CountrySummary[]> {
 		return combineLatest([this.getSummary(), this.applyFilter$]).pipe(map(([list]) => {
-			return this.isFavoriteView() ? list.filter(listToFilter => this.isFavorite(listToFilter.Slug)) : list;
+			let sortingFunction: any;
+			switch (this.getSortingSettings().option) {
+				case Sorting.Options.TotalConfirmed:
+					sortingFunction = (a: CountrySummary, b: CountrySummary) => a.TotalConfirmed - b.TotalConfirmed;
+					break;
+				case Sorting.Options.TotalDeaths:
+					sortingFunction = (a: CountrySummary, b: CountrySummary) => a.TotalDeaths - b.TotalDeaths;
+					break;
+				case Sorting.Options.TotalRecovered:
+					sortingFunction = (a: CountrySummary, b: CountrySummary) => a.TotalRecovered - b.TotalRecovered;
+					break;
+			}
+
+			const clonedList = [];
+			list.forEach(a => clonedList.push(a));
+			const filteredList = this.isFavoriteView() ? clonedList.filter(listToFilter => this.isFavorite(listToFilter.Slug)) : clonedList;
+			const sortedList = filteredList.sort(sortingFunction);
+			return (this.getSortingSettings().direction === Sorting.Direction.ASC) ? sortedList : sortedList.reverse();
 		}));
 	}
 
@@ -90,5 +108,19 @@ export class Covid19Service {
 		if (this.isFavoriteView()) {
 			this.scheduler = setTimeout(() => this.applyFilter$.emit(), 2500);
 		}
+	}
+
+	getSortingSettings(): Sorting.Settings {
+		const sorting = this.cookieServoce.get(Cookies.Sorting).split(Cookies.DELIMITER);
+		return {
+			option: (sorting[0] || Sorting.Options.Alphabetical) as Sorting.Options,
+			direction: (sorting.length > 1 ? sorting[1] : Sorting.Direction.ASC) as Sorting.Direction
+		};
+	}
+
+	setSortingSettings(sortingSettings: Sorting.Settings): void {
+		const sorting = sortingSettings.option + Cookies.DELIMITER + sortingSettings.direction;
+		this.cookieServoce.set(Cookies.Sorting, sorting);
+		this.applyFilter$.emit();
 	}
 }

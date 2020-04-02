@@ -4,9 +4,18 @@
 			<span class="spacer"></span>
 			<div class="search">search here</div>
 			<span class="spacer"></span>
-			<div class="filter">filter here</div>
+			<div class="sort">
+				<mat-form-field>
+					<mat-select [value]="getSortingSettings().option" (selectionChange)="onSortingChange($event.value, getSortingSettings().direction)">
+						<mat-option *ngFor="let option of getSortingOptions()" value="{{ option }}">{{ option }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<button class="button sort-direction-button" (click)="onDirectionChange()">
+					<img class="sort-direction-icon" [class.descending]="isDescending()" [src]="'assets/icons/arrow.svg'">
+				</button>
+			</div>
 			<div class="favorite">
-				<button class="favorite-button" 
+				<button class="button favorite-button" 
 						title="{{ isFavoriteView() ? 'Show all' : 'Show favorites only' }}" 
 						(click)="onFavoriteClicked()">
 					<img *ngIf="!isFavoriteView()" class="favorite-icon" [src]="'assets/icons/star-filled-white.svg'">
