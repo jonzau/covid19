@@ -2,7 +2,19 @@
 	<mat-toolbar-row>
 			<div class="title">Covid 19</div>
 			<span class="spacer"></span>
-			<div class="search">search here</div>
+			<div class="search">
+				<form>
+					<mat-form-field>
+						<input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto" 
+							placeholder="Search ..." (ngModelChange)="onSearchTextChange($event)">
+						<mat-autocomplete #auto="matAutocomplete">
+							<mat-option *ngFor="let option of filteredCountryList | async" [value]="option">
+								{{ option }}
+							</mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</form>
+			</div>
 			<span class="spacer"></span>
 			<div class="sort">
 				<mat-form-field>

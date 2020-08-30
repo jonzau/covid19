@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 import { Covid19Service } from '../covid19.service';
 import { Sorting } from '../models/models';
@@ -10,10 +13,28 @@ import { Sorting } from '../models/models';
 })
 export class ToolbarComponent implements OnInit {
 
+	countryList: string[] = [];
+
+	filteredCountryList: Observable<string[]>;
+
+	searchControl = new FormControl();
+
 	constructor(private convid19Service: Covid19Service) {
 	}
 
 	ngOnInit(): void {
+		const filter = (value: string): string[] => {
+			const filterValue = value.toLowerCase();
+			return this.countryList.filter(country => country.toLowerCase().indexOf(filterValue) === 0);
+		};
+
+		this.convid19Service.getCountryNames().subscribe(list => this.countryList = list);
+
+		this.filteredCountryList = this.searchControl.valueChanges.pipe(startWith(''), map(value => filter(value)));
+	}
+
+	onSearchTextChange(searchText: string): void {
+		this.convid19Service.setFilterText(searchText);
 	}
 
 	isFavoriteView(): boolean {

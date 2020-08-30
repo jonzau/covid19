@@ -22,6 +22,8 @@ export class Covid19Service {
 
 	private applyFilter$: EventEmitter<void> = new EventEmitter();
 
+	private filterText: string;
+
 	private date: Date;
 
 	private scheduler: any;
@@ -41,6 +43,10 @@ export class Covid19Service {
 		return this.summary$;
 	}
 
+	getCountryNames(): Observable<string[]> {
+		return this.getSummary().pipe(map(list => list.map(a => a.Country)));
+	}
+
 	getFilteredSummary(): Observable<CountrySummary[]> {
 		return combineLatest([this.getSummary(), this.applyFilter$]).pipe(map(([list]) => {
 			let sortingFunction: any;
@@ -57,7 +63,12 @@ export class Covid19Service {
 			}
 
 			const clonedList = [];
-			list.forEach(a => clonedList.push(a));
+			list.forEach(a => {
+				const filterValue = this.filterText ? this.filterText.toLowerCase() : null;
+				if (!filterValue || a.Country.toLowerCase().indexOf(filterValue) >= 0) {
+					clonedList.push(a);
+				}
+			});
 			const filteredList = this.isFavoriteView() ? clonedList.filter(listToFilter => this.isFavorite(listToFilter.Slug)) : clonedList;
 			const sortedList = filteredList.sort(sortingFunction);
 			return (this.getSortingSettings().direction === Sorting.Direction.ASC) ? sortedList : sortedList.reverse();
@@ -108,6 +119,11 @@ export class Covid19Service {
 		if (this.isFavoriteView()) {
 			this.scheduler = setTimeout(() => this.applyFilter$.emit(), 2500);
 		}
+	}
+
+	setFilterText(filterText: string): void {
+		this.filterText = filterText;
+		this.applyFilter$.emit();
 	}
 
 	getSortingSettings(): Sorting.Settings {
