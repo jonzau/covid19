@@ -2,9 +2,10 @@
 
 This is a simple a web app that displays basic COVID19 stats per country.
 
-This proect is written in [Anglular](https://angular.io/) using the [Angular Material](https://material.angular.io/) UI library and [COVID19 API](https://covid19api.com/), as well as [NGX Cookie Service](https://www.npmjs.com/package/ngx-cookie-service) to store cookies with user's selections (such as favourites and sorting).
+This project is written in [Angular](https://angular.io/) using the [Angular Material](https://material.angular.io/) UI library and [COVID19 API](https://covid19api.com/), as well as [NGX Cookie Service](https://www.npmjs.com/package/ngx-cookie-service) to store cookies with user's selections (such as favourites and sorting).
 
-Some of the app's features include: 
+Some of the app's features include:
+
 * A search bar to quickly find a specific country
 * Different sorting options
 * Mark as favourite / show favourites only 
