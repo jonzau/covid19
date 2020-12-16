@@ -10,6 +10,7 @@ import { CountrySummary } from './models/models';
 })
 export class AppComponent implements OnInit {
 	title = 'covid19';
+	topBanner = '';
 	list: CountrySummary[];
 
 	constructor(private convid19Service: Covid19Service) {
@@ -17,5 +18,6 @@ export class AppComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.convid19Service.getFilteredSummary().subscribe(list => this.list = list);
+		this.convid19Service.getErrorMessage().subscribe(errorMsg => this.topBanner = errorMsg);
 	}
 }

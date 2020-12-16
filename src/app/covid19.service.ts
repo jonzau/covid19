@@ -20,6 +20,8 @@ export class Covid19Service {
 
 	private summary$: BehaviorSubject<CountrySummary[]> = new BehaviorSubject([]);
 
+	private errorMessage$: BehaviorSubject<string> = new BehaviorSubject('');
+
 	private applyFilter$: EventEmitter<void> = new EventEmitter();
 
 	private filterText: string;
@@ -32,15 +34,33 @@ export class Covid19Service {
 	}
 
 	getSummary(): Observable<CountrySummary[]> {
+		const processData = (result: any) => {
+			this.summary$.next(result.Countries);
+			this.date = result.Date;
+			this.applyFilter$.emit();  // need to emeit to triger first filtering
+		};
+		const processError = (error: any) => {
+			let errorMsg = 'Unable to retreive current data.';
+			if (this.date) {
+				errorMsg += ' Showing offline data from ' + new Date(this.date);
+			}
+			this.errorMessage$.next(errorMsg);
+			console.log(this.errorMessage$.value, error);
+		};
 		if (!this.date) {
-			this.http.get('https://api.covid19api.com/summary').toPromise().then((result: any) => {
-				this.summary$.next(result.Countries);
-				this.date = result.Date;
-				this.applyFilter$.emit();  // need to emeit to triger first filtering
+			this.http.get('https://api.covid19api.com/summary').toPromise().then(processData, error => {
+				this.http.get('assets/offline-data.json').toPromise().then(offlineData => {
+					processData(offlineData);
+					processError(error);
+				}, processError);
 			});
 		}
 
 		return this.summary$;
+	}
+
+	getErrorMessage(): Observable<string> {
+		return this.errorMessage$;
 	}
 
 	getCountryNames(): Observable<string[]> {

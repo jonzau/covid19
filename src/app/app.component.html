@@ -1,6 +1,7 @@
 <app-toolbar></app-toolbar>
 
 <div class="summary-cards-section">
+	<div class="top-banner">{{ topBanner }}</div>
 	<div class="summary-card-container" *ngFor="let country of list">
 		<app-summary-card *ngIf="country.Country" [country]="country"></app-summary-card>
 	</div>
