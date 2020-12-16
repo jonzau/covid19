@@ -134,7 +134,7 @@ export class Covid19Service {
 			}
 		});
 
-		this.cookieServoce.set('favorites', favoritesStr);
+		this.cookieServoce.set(Cookies.Favorites, favoritesStr);
 
 		if (this.isFavoriteView()) {
 			this.scheduler = setTimeout(() => this.applyFilter$.emit(), 2500);
