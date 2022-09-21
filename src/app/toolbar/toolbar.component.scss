@@ -18,6 +18,14 @@
 
 	.search {
 		font-size: 18px;
+
+		::ng-deep {
+			.mat-form-field-should-float {
+				#mat-form-field-label-1 {
+					top: 1.7em;
+				}
+			}
+		}
 	}
 
 	.sort {
