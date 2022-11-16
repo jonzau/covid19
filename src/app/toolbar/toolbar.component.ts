@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ export class ToolbarComponent implements OnInit {
 
 	filteredCountryList: Observable<string[]>;
 
-	searchControl = new FormControl();
+	searchControl = new UntypedFormControl();
 
 	constructor(private convid19Service: Covid19Service) {
 	}
