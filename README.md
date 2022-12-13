@@ -4,7 +4,7 @@ This is a simple web app that displays basic COVID19 stats per country.
 
 This project is written in [Angular](https://angular.io/) using the [Angular Material](https://material.angular.io/) UI library and [COVID19 API](https://covid19api.com/), as well as [NGX Cookie Service](https://www.npmjs.com/package/ngx-cookie-service) to store cookies with user's selections (such as favourites and sorting).
 
-[Demo here!](https://covid19-jonz.herokuapp.com/)
+[Demo here!](https://jonz-covid19.web.app/)
 
 Some of the app's features include:
 
